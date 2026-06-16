@@ -1,6 +1,6 @@
-const banner = document.querySelector('.new-banner');
+const banners = document.querySelectorAll('.new-banner');
 
-function playBannerAnimation() {
+function playBannerAnimation(banner) {
   if (!banner || banner.classList.contains('is-animated')) return;
   banner.classList.add('is-animated');
 }
@@ -10,15 +10,15 @@ if ('IntersectionObserver' in window) {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          playBannerAnimation();
-          observer.unobserve(banner);
+          playBannerAnimation(entry.target);
+          observer.unobserve(entry.target);
         }
       });
     },
     { threshold: 0.15 }
   );
 
-  if (banner) observer.observe(banner);
+  banners.forEach((banner) => observer.observe(banner));
 } else {
-  playBannerAnimation();
+  banners.forEach(playBannerAnimation);
 }
