@@ -29,6 +29,8 @@ body {
   background: #04193A;
   display: flex;
   overflow: hidden;
+  --anim-duration: 3s;
+  --anim-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .new-banner__bg {
@@ -68,10 +70,11 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
+  transform: translateY(120vh);
 }
 
 .new-banner__right-animation--tablet img {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   width: 100%;
   height: 100%;
@@ -85,10 +88,11 @@ body {
   height: 439px;
   flex-shrink: 0;
   z-index: 2;
+  transform: translateY(-120vh);
 }
 
 .new-banner__right-animation--iphone img {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   width: 100%;
   height: 100%;
@@ -140,31 +144,34 @@ body {
 
 .new-banner__left--1,
 .new-banner__left--2,
-.new-banner__left--3,
-.new-banner__right {
+.new-banner__left--3 {
   opacity: 0;
 }
 
 .new-banner.is-animated .new-banner__left--1 {
-  animation: banner-slide-from-top 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: banner-slide-from-top var(--anim-duration) var(--anim-ease) forwards;
 }
 
 .new-banner.is-animated .new-banner__left--2 {
-  animation: banner-slide-rotate-from-left 1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards;
+  animation: banner-slide-rotate-from-left var(--anim-duration) var(--anim-ease) forwards;
 }
 
 .new-banner.is-animated .new-banner__left--3 {
-  animation: banner-slide-from-bottom 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+  animation: banner-slide-from-bottom var(--anim-duration) var(--anim-ease) forwards;
 }
 
-.new-banner.is-animated .new-banner__right {
-  animation: banner-slide-from-top 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+.new-banner.is-animated .new-banner__right-animation--iphone {
+  animation: banner-mockup-from-top var(--anim-duration) var(--anim-ease) forwards;
+}
+
+.new-banner.is-animated .new-banner__right-animation--tablet {
+  animation: banner-mockup-from-bottom var(--anim-duration) var(--anim-ease) forwards;
 }
 
 @keyframes banner-slide-from-top {
   from {
     opacity: 0;
-    transform: translateY(-120px);
+    transform: translateY(-180px);
   }
 
   to {
@@ -176,7 +183,7 @@ body {
 @keyframes banner-slide-from-bottom {
   from {
     opacity: 0;
-    transform: translateY(120px);
+    transform: translateY(180px);
   }
 
   to {
@@ -197,11 +204,30 @@ body {
   }
 }
 
+@keyframes banner-mockup-from-top {
+  from {
+    transform: translateY(-120vh);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes banner-mockup-from-bottom {
+  from {
+    transform: translateY(120vh);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .new-banner__left--1,
   .new-banner__left--2,
-  .new-banner__left--3,
-  .new-banner__right {
+  .new-banner__left--3 {
     opacity: 1;
     transform: none;
   }
@@ -210,10 +236,16 @@ body {
     transform: rotate(-90deg);
   }
 
+  .new-banner__right-animation--iphone,
+  .new-banner__right-animation--tablet {
+    transform: none;
+  }
+
   .new-banner.is-animated .new-banner__left--1,
   .new-banner.is-animated .new-banner__left--2,
   .new-banner.is-animated .new-banner__left--3,
-  .new-banner.is-animated .new-banner__right {
+  .new-banner.is-animated .new-banner__right-animation--iphone,
+  .new-banner.is-animated .new-banner__right-animation--tablet {
     animation: none;
   }
 }
